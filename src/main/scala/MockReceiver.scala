@@ -42,7 +42,7 @@ class MockReceiver[T: ClassManifest](
     } else {
       numRecordsPerEpoch
     }
-    logInfo("Sending " + numRecordsToGenerate + " records at " + System.currentTimeMillis)
+    logDebug("Sending " + numRecordsToGenerate + " records at " + System.currentTimeMillis)
     var i = 0
     while(i < numRecordsToGenerate) {
       blockGenerator += generatingFunction()
@@ -56,7 +56,7 @@ class MockReceiver[T: ClassManifest](
       logWarning("Achieved rate is " + (averageRecordsPerSecond / 10e3).formatted("%.3f") + "K rec/sec, " +
         "expected " + (recordsPerSecond / 10e3).formatted("%.3f") + "K rec/sec")
     } else {
-      logInfo("Generated " + numRecordsGenerated + " at " + (averageRecordsPerSecond / 10e3).formatted("%.3f") + "K rec/sec")
+      logDebug("Generated " + numRecordsGenerated + " at " + (averageRecordsPerSecond / 10e3).formatted("%.3f") + "K rec/sec")
     }
 
     if (isSyncInterval) numRecordsGeneratedInEpoch = 0
