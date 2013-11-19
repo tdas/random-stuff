@@ -9,6 +9,10 @@ object DiskWriteTest {
     val bos = new FastBufferedOutputStream(fos)
     var sumOfTimeTaken = 0.0
     var numTimeTaken = 0
+    var intervalSinceAnomaly = 0
+    var numIntervals = 0
+    var anomalyIntervalSum = 0
+
     while(true) {
       val startTime = System.currentTimeMillis()
       bos.write(bytes)
@@ -18,7 +22,16 @@ object DiskWriteTest {
       val timeTaken = System.currentTimeMillis() - startTime
       sumOfTimeTaken += timeTaken
       numTimeTaken += 1
-      println("Time taken = " + timeTaken + " ms " + ( if (timeTaken > 2 * sumOfTimeTaken / numTimeTaken) " *** " else "" ) )
+      var x = ""
+      if (timeTaken > 2 * sumOfTimeTaken / numTimeTaken) {
+        anomalyIntervalSum += intervalSinceAnomaly
+        numIntervals += 1
+        intervalSinceAnomaly = 0
+        x = " ***** periodicity = " + (anomalyIntervalSum.toDouble / numIntervals).formatted("%.1f")
+      } else {
+        intervalSinceAnomaly += 1
+      }
+      println("Time taken = " + timeTaken + " ms " + x )
     }
   }
 }
