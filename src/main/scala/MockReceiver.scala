@@ -83,7 +83,7 @@ class IntMockReceiver(recordsPerSecond: Long, storageLevel: StorageLevel)
   extends MockReceiver[Int](() => Random.nextInt(), recordsPerSecond, storageLevel)
 
 object MockReceiver {
-  def main(args: Array[String]) {
+  def main1(args: Array[String]) {
     val receiver = new IntMockReceiver(200000, StorageLevel.MEMORY_ONLY)
     val ssc = new StreamingContext("local[4]", "test", Seconds(1), jars = Seq("./target/scala-2.9.3/random-stuff_2.9.3-1.0.jar"))
     val networkStream = ssc.networkStream(receiver)
